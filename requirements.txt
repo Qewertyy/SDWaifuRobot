@@ -1,0 +1,5 @@
+Pyrogram
+TgCrypto
+uvloop
+lexica-api
+httpx[http2]
