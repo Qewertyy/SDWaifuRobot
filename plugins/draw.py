@@ -43,19 +43,21 @@ async def selectModel(_:Client,query:t.CallbackQuery):
                 )
             )
         return
+    modelId = int(data[1])
     await query.edit_message_text("Please wait, generating your image")
     promptData = Database.get(auth_user,None)
     if promptData is None:
         return await query.edit_message_text("Something went wrong.")
-    img_url = await ImageGeneration(int(data[1]),promptData['prompt'])
+    img_url = await ImageGeneration(modelId,promptData['prompt'])
     if img_url is None or img_url == 2 or img_url ==1:
         return await query.edit_message_text("something went wrong!")
     elif img_url == 69:
         return await query.edit_message_text("NSFW not allowed!")
     images = []
+    modelName = [i['name'] for i in Models if i['id'] == modelId]
     for i in img_url:
         images.append(t.InputMediaDocument(i))
-    images[-1] = t.InputMediaDocument(img_url[-1],caption=f"Your prompt: `{promptData['prompt']}`") # for caption
+    images[-1] = t.InputMediaDocument(img_url[-1],caption=f"Your prompt: `{promptData['prompt']}`\nModel: `{modelName}`") # for caption
     await query.message.delete()
     try:
         del Database[auth_user]
