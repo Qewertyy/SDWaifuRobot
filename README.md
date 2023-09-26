@@ -3,7 +3,7 @@
 fill `config.py` with proper values
 
 ## Deploy on VPS
-    git clone https://github.com/Qewertyy/SDWaifuRobot && cd SDwaifuRobot
+    git clone https://github.com/Qewertyy/SDWaifuRobot && cd SDWaifuRobot
     python3 -r requirements.txt
     python3 bot.py
 
