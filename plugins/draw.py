@@ -44,6 +44,10 @@ async def selectModel(_:Client,query:t.CallbackQuery):
             )
         return
     modelId = int(data[1])
+    if modelId == -1:
+        del Database[auth_user]
+        await query.message.delete()
+        return
     await query.edit_message_text("Please wait, generating your image")
     promptData = Database.get(auth_user,None)
     if promptData is None:

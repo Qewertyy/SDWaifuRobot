@@ -63,6 +63,6 @@ def paginate_models(page_n: int, models: list,user_id) -> list:
             )
         ]
     else:
-        pairs += [[EqInlineKeyboardButton("Back", callback_data=f"d.-1.{user_id}")]]
+        pairs += [[EqInlineKeyboardButton("Cancel", callback_data=f"d.-1.{user_id}")]]
 
     return pairs
