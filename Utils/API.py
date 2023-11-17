@@ -53,4 +53,13 @@ async def gpt(prompt) -> str:
         await client.close()
         return output['content']
     except Exception as E:
-        raise Exception(f"Failed to upscale the image: {e}")
+        raise Exception(f"API error: {E}")
+
+async def bard(prompt) -> str:
+    try:
+        client = AsyncClient()
+        output = await client.bard(prompt)
+        await client.close()
+        return output['content']
+    except Exception as E:
+        raise Exception(f"API error: {E}")
