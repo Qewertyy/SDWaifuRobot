@@ -6,7 +6,7 @@ from bot import StartTime
 @Client.on_message(filters.command(["start","help","repo"]))
 async def start(_: Client, m: t.Message):
     await m.reply_text(
-        "Just an image generation bot by @Qewertyy.\n\nCommands: \n`/draw`: create images\n`/upscale`: upscale your images",
+        "Just an image generation bot by @Qewertyy.\n\nCommands: \n`/draw`: create images\n`/upscale`: upscale your images\n`/gpt`: ask chatgpt\n`/bard`: ask bard ai by google",
         reply_markup=t.InlineKeyboardMarkup(
             [
                 [
