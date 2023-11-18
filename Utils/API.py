@@ -60,6 +60,6 @@ async def bard(prompt) -> str:
         client = AsyncClient()
         output = await client.bard(prompt)
         await client.close()
-        return output['content']
+        return output['content'],output['images']
     except Exception as E:
         raise Exception(f"API error: {E}")

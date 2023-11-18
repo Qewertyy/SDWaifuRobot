@@ -16,5 +16,16 @@ async def bardai(_: Client,m: t.Message):
     prompt = getText(m)
     if prompt is None:
         return await m.reply_text("Hello, How can i assist you today?")
-    output = await bard(prompt)
-    await m.reply_text(output)
+    output,images = await bard(prompt)
+    if len(images) == 0:
+        await m.reply_text(output)
+    else:
+        media = []
+        for i in images:
+            media.append(types.InputMediaPhoto(i))
+        media[0] = types.InputMediaPhoto(images[0],caption=text)
+        await app.send_media_group(
+            message.chat.id,
+            media,
+            reply_to_message_id=message.id
+            )
