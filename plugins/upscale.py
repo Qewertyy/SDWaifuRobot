@@ -1,3 +1,5 @@
+# Copyright 2023 Qewertyy, MIT License
+
 from pyrogram import Client, filters, types as t
 from Utils import getFile, UpscaleImages
 import os

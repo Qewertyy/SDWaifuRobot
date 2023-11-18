@@ -1,3 +1,5 @@
+# Copyright 2023 Qewertyy, MIT License
+
 from pyrogram.types import InlineKeyboardButton
 from math import ceil
 
