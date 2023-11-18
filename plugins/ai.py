@@ -22,8 +22,8 @@ async def bardai(_: Client,m: t.Message):
     else:
         media = []
         for i in images:
-            media.append(types.InputMediaPhoto(i))
-        media[0] = types.InputMediaPhoto(images[0],caption=text)
+            media.append(t.InputMediaPhoto(i))
+        media[0] = t.InputMediaPhoto(images[0],caption=text)
         await app.send_media_group(
             message.chat.id,
             media,
