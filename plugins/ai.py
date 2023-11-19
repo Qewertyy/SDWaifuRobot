@@ -10,7 +10,7 @@ async def chatbots(_: Client,m: t.Message):
         return await m.reply_text("Hello, How can i assist you today?")
     model = m.command[0].lower()
     output = await ChatCompletion(prompt,model)
-    if type(output) == output.__class__:
+    if model == "bard":
         output, images = output
         if len(images) == 0:
             return await m.reply_text(output)
