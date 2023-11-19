@@ -1,6 +1,7 @@
 # Copyright 2023 Qewertyy, MIT License
 import asyncio
 from lexica import AsyncClient
+from lexica.constants import languageModels
 
 async def ImageGeneration(model,prompt):
     try:
@@ -46,20 +47,13 @@ async def UpscaleImages(image: bytes) -> str:
     except Exception as e:
         raise Exception(f"Failed to upscale the image: {e}")
 
-async def gpt(prompt) -> str:
+async def ChatCompletion(prompt,model) -> tuple | str :
     try:
+        modelInfo = getattr(languageModels,model)
         client = AsyncClient()
-        output = await client.gpt(prompt)
-        await client.close()
+        output = await client.ChatCompletion(prompt,modelInfo)
+        if model == "bard":
+            return output['content'], output['images']
         return output['content']
     except Exception as E:
-        raise Exception(f"API error: {E}")
-
-async def bard(prompt) -> str:
-    try:
-        client = AsyncClient()
-        output = await client.bard(prompt)
-        await client.close()
-        return output['content'],output['images']
-    except Exception as E:
-        raise Exception(f"API error: {E}")
+        raise Exception(f"API error: {E}",)
