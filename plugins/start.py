@@ -3,10 +3,22 @@
 from pyrogram import Client, filters, types as t
 from bot import StartTime
 
+startText = """
+Just an image generation bot by @Qewertyy.
+Commands:
+`/draw`: create images
+`/upscale`: upscale your images
+`/gpt`: chatgpt
+`/bard`: bard ai by google
+`/mistral`: mistral ai
+`/llama`: llama by meta ai
+`/palm`: palm by google
+"""
+
 @Client.on_message(filters.command(["start","help","repo"]))
 async def start(_: Client, m: t.Message):
     await m.reply_text(
-        "Just an image generation bot by @Qewertyy.\n\nCommands: \n`/draw`: create images\n`/upscale`: upscale your images\n`/gpt`: ask chatgpt\n`/bard`: ask bard ai by google",
+        startText,
         reply_markup=t.InlineKeyboardMarkup(
             [
                 [
