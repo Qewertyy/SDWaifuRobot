@@ -57,3 +57,11 @@ async def ChatCompletion(prompt,model) -> tuple | str :
         return output['content']
     except Exception as E:
         raise Exception(f"API error: {E}",)
+
+async def ReverseImageSearch(search_engine,img_url) -> dict:
+    try:
+        client = AsyncClient()
+        output = await client.ImageReverse(search_engine,img_url)
+        return output
+    except Exception as E:
+        raise Exception(f"API Error: {E}")
