@@ -24,7 +24,7 @@ def paginate_models(page_n: int, models: list,user_id) -> list:
             ]
             )
 
-    pairs = list(zip(modules[::3], modules[1::3]))
+    pairs = list(zip(modules[::2], modules[1::2]))
     i = 0
     for m in pairs:
         for _ in m:
