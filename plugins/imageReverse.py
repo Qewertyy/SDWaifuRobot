@@ -13,6 +13,7 @@ async def reverseImageSearch(_: Client,m: t.Message):
             return await reply.edit("Reply to an image?")
         if file == 1:
             return await reply.edit("File size is large")
+        await reply.edit("`Uploading to the server...`")
         imgUrl = await uploadToTelegraph(file)
         if imgUrl is None:
             return await reply.edit("Ran into an error.")
