@@ -7,4 +7,4 @@ fill `config.py` with proper values
     python3 -r requirements.txt
     python3 bot.py
 
-For any errors: [@Qewertyy](https://telegram.me/Qewertyy)
+For any errors you're welcome to open an [issue](https://github.com/Qewertyy/SDWaifuRobot/issues/new)

@@ -4,7 +4,7 @@ from pyrogram import Client, filters, types as t
 from bot import StartTime
 
 startText = """
-Just an image generation bot by @Qewertyy.
+Just an AI/Utility bot by `@Qewertyy`.
 Commands:
 `/draw`: create images
 `/upscale`: upscale your images
@@ -13,9 +13,10 @@ Commands:
 `/mistral`: mistral ai
 `/llama`: llama by meta ai
 `/palm`: palm by google
+`/reverse`: reverse image search
 """
 
-@Client.on_message(filters.command(["start","help","repo"]))
+@Client.on_message(filters.command(["start","help","repo","source"]))
 async def start(_: Client, m: t.Message):
     await m.reply_text(
         startText,

@@ -1,6 +1,4 @@
 # Copyright 2023 Qewertyy, MIT License
-from httpx import AsyncClient
-import os,traceback
 
 async def getFile(message):
     if not message.reply_to_message:
@@ -27,22 +25,3 @@ def getText(message):
             return None
     else:
         return None
-    
-async def uploadToTelegraph(file: str):
-    try:
-        files = {"file":open(file,'rb')}
-        async with AsyncClient(http2=True) as client:
-            res = await client.post(
-                "https://graph.org/upload",
-                files=files
-                )
-        if res.status_code != 200:
-            return None
-        resp = res.json()
-        return 'https://graph.org'+resp[0]['src']
-    except Exception as E:
-        print("Uploading to telegraph failed:")
-        traceback.print_exc()
-        return None
-    finally:
-        os.remove(file)

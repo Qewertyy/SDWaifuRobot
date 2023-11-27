@@ -6,6 +6,7 @@ import datetime,logging, sys
 from pyrogram import Client
 from lexica import Client as ApiClient
 from config import Config
+from Utils.telegraph import GraphClient
 
 # Get logging configurations
 logging.basicConfig(
@@ -17,13 +18,22 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
-StartTime = Models = None
+StartTime = None
+Models = None
+
+TelegraphClient = GraphClient(
+    "LexicaAPI",
+    "https://t.me/LexicaAPI",
+    "LexicaAPI"
+)
+TelegraphClient.createAccount()
 
 class Bot(Client):
     global StartTime,Models
     StartTime = datetime.datetime.now()
     api = ApiClient()
     Models = api.getModels()['models']['image']
+    #print(Models)
     def __init__(self):
         super().__init__(
             "SDWaifuRobot",
