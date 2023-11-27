@@ -7,17 +7,18 @@ from bot import TelegraphClient
 @Client.on_message(filters.command(["pp","reverse","sauce"]))
 async def reverseImageSearch(_: Client,m: t.Message):
     try:
+        reply = await m.reply_text("`Downloading...`")
         file = await getFile(m)
-        if file == 1:
-            return await m.reply_text("File size is large")
         if file is None:
-            return await m.reply_text("Reply to an image?")
+            return await reply.edit("Reply to an image?")
+        if file == 1:
+            return await reply.edit("File size is large")
         imgUrl = await uploadToTelegraph(file)
         if imgUrl is None:
-            return await m.reply_text("Ran into an error.")
+            return await reply.edit("Ran into an error.")
         output = await ReverseImageSearch("google",imgUrl)
         if output['code'] != 2:
-            return await m.reply_text("Ran into an error.")
+            return await reply.edit("Ran into an error.")
         message = ''
         names = output['content']['bestResults']['names']
         urls = output['content']['bestResults']['urls']
@@ -35,8 +36,10 @@ async def reverseImageSearch(_: Client,m: t.Message):
             htmlMessage += "<br/><br/>By <a href='https://lexica.qewertyy.me'>LexicaAPI</a>"
             url = TelegraphClient.createPage("More Results",htmlMessage)
             message += f"\n\n[More Results]({url})\nBy @LexicaAPI"
+            await reply.delete()
             return await m.reply_text(message,reply_markup=btn)
         message ="\n".join([f"{index+1}. {name}" for index, name in enumerate(output['content']['bestResults']['names'])])
+        await reply.delete()
         await m.reply_text(f"{message}\n\nBy @LexicaAPI",reply_markup=btn)
     except Exception as E:
         traceback.print_exc()
