@@ -28,7 +28,7 @@ async def ImageGeneration(model,prompt):
             continue
         return image_url
     except Exception as e:
-        raise Exception(f"Failed to generate the image: {e}")
+        print(f"Failed to generate the image:",e)
     finally:
         await client.close()
 
@@ -36,32 +36,23 @@ async def UpscaleImages(image: bytes) -> str:
     """
     Upscales an image and return with upscaled image path.
     """
-    try:
-        client = AsyncClient()
-        content = await client.upscale(image)
-        await client.close()
-        upscaled_file_path = "upscaled.png"
-        with open(upscaled_file_path, "wb") as output_file:
-            output_file.write(content)
-        return upscaled_file_path
-    except Exception as e:
-        raise Exception(f"Failed to upscale the image: {e}")
+    client = AsyncClient()
+    content = await client.upscale(image)
+    await client.close()
+    upscaled_file_path = "upscaled.png"
+    with open(upscaled_file_path, "wb") as output_file:
+        output_file.write(content)
+    return upscaled_file_path
 
 async def ChatCompletion(prompt,model) -> tuple | str :
-    try:
-        modelInfo = getattr(languageModels,model)
-        client = AsyncClient()
-        output = await client.ChatCompletion(prompt,modelInfo)
-        if model == "bard":
-            return output['content'], output['images']
-        return output['content']
-    except Exception as E:
-        raise Exception(f"API error: {E}",)
+    modelInfo = getattr(languageModels,model)
+    client = AsyncClient()
+    output = await client.ChatCompletion(prompt,modelInfo)
+    if model == "bard":
+        return output['content'], output['images']
+    return output['content']
 
 async def ReverseImageSearch(search_engine,img_url) -> dict:
-    try:
-        client = AsyncClient()
-        output = await client.ImageReverse(search_engine,img_url)
-        return output
-    except Exception as E:
-        raise Exception(f"API Error: {E}")
+    client = AsyncClient()
+    output = await client.ImageReverse(search_engine,img_url)
+    return output
