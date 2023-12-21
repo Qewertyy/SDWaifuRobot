@@ -1,5 +1,5 @@
 # Copyright 2023 Qewertyy, MIT License
-import asyncio
+import asyncio,base64,mimetypes,os
 from lexica import AsyncClient
 from lexica.constants import languageModels
 
@@ -51,6 +51,25 @@ async def ChatCompletion(prompt,model) -> tuple | str :
     if model == "bard":
         return output['content'], output['images']
     return output['content']
+
+async def geminiVision(prompt,model,images) -> tuple | str :
+    imageInfo = []
+    for image in images:
+        with open(image,"rb") as imageFile:
+            data = base64.b64encode(imageFile.read()).decode("utf-8")
+            mime_type,_= mimetypes.guess_type(image)
+            imageInfo.append({
+                "data": data,
+                "mime_type": mime_type
+            })
+        os.remove(image)
+    payload = {
+        "images":imageInfo
+    }
+    modelInfo = getattr(languageModels,model)
+    client = AsyncClient()
+    output = await client.ChatCompletion(prompt,modelInfo,json=payload)
+    return output['content']['parts'][0]['text']
 
 async def ReverseImageSearch(search_engine,img_url) -> dict:
     client = AsyncClient()
