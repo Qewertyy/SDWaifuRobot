@@ -48,6 +48,7 @@ async def ChatCompletion(prompt,model) -> tuple | str :
     modelInfo = getattr(languageModels,model)
     client = AsyncClient()
     output = await client.ChatCompletion(prompt,modelInfo)
+    await client.close()
     if model == "bard":
         return output['content'], output['images']
     return output['content']
@@ -71,7 +72,14 @@ async def geminiVision(prompt,model,images) -> tuple | str :
     output = await client.ChatCompletion(prompt,modelInfo,json=payload)
     return output['content']['parts'][0]['text']
 
-async def ReverseImageSearch(search_engine,img_url) -> dict:
+async def ReverseImageSearch(img_url,search_engine) -> dict:
     client = AsyncClient()
-    output = await client.ImageReverse(search_engine,img_url)
+    output = await client.ImageReverse(img_url,search_engine)
+    await client.close()
+    return output
+
+async def SearchImages(query,search_engine) -> dict:
+    client = AsyncClient()
+    output = await client.SearchImages(query,0,search_engine)
+    await client.close()
     return output

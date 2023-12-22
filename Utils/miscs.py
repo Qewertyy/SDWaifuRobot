@@ -1,4 +1,6 @@
 # Copyright 2023 Qewertyy, MIT License
+import httpx
+from urllib.parse import urlsplit
 
 async def getFile(message):
     if not message.reply_to_message:
@@ -46,3 +48,26 @@ def getMedia(message):
     else:
         media = None
     return media
+
+def cleanUrl(url):
+    newUrl = urlsplit(url)
+    return f"{newUrl.scheme}://{newUrl.netloc}{newUrl.path}"
+
+def getImageContent(url):
+    """Get Image Content"""
+    try:
+        client = httpx.Client()
+        response = client.get(cleanUrl(url))
+        if response.status_code != 200:
+            return None,None
+        imageType = response.headers['content-type'].split("/")[1]
+        if imageType == "svg+xml":
+            return None,None
+        if imageType == "octet-stream":
+            imageType = "webp"
+        print(imageType)
+        if imageType == "gif":
+            return None,None
+        return response.content,imageType
+    except (TimeoutError, httpx.ReadTimeout,httpx.ReadError):
+        return None,None
