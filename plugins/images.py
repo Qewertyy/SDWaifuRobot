@@ -22,7 +22,6 @@ async def searchImages(_: Client,m:t.Message):
         media = []
         filePaths = []
         for image in images:
-            print(image['imageUrl'])
             content,imageType = getImageContent(image['imageUrl'])
             if content is None:
                 images.remove(image)
@@ -44,7 +43,6 @@ async def searchImages(_: Client,m:t.Message):
                 os.remove(image)
     except (errors.ExternalUrlInvalid, errors.WebpageCurlFailed,errors.WebpageMediaEmpty) as e:
         print(e)
-        await reply.delete()
         return await reply.edit("Ran into an error.")
     except Exception as e:
         traceback.print_exc()

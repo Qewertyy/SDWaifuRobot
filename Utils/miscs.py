@@ -65,7 +65,6 @@ def getImageContent(url):
             return None,None
         if imageType == "octet-stream":
             imageType = "webp"
-        print(imageType)
         if imageType == "gif":
             return None,None
         return response.content,imageType
