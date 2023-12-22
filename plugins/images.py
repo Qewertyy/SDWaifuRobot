@@ -2,7 +2,7 @@
 
 from pyrogram import Client, filters, types as t,errors
 from Utils import getText,SearchImages,getImageContent
-import traceback,random,datetime,os
+import traceback,random,datetime,os,io
 
 @Client.on_message(filters.command(["img","image","imagesearch"]))
 async def searchImages(_: Client,m:t.Message):
@@ -20,27 +20,19 @@ async def searchImages(_: Client,m:t.Message):
             await reply.delete()
             return await reply.edit("No results found.")
         media = []
-        filePaths = []
         for image in images:
-            content,imageType = getImageContent(image['imageUrl'])
+            content = getImageContent(image['imageUrl'])
             if content is None:
                 images.remove(image)
                 continue
             else:
-                path = f"./downloads/{m.from_user.id}_{datetime.datetime.now().timestamp()}.{imageType}"
-                with open(path, "wb") as f:
-                    f.write(content)
-                filePaths.append(path)
-                media.append(t.InputMediaPhoto(path))
+                media.append(t.InputMediaPhoto(io.BytesIO(content)))
         await _.send_media_group(
             m.chat.id,
             media,
             reply_to_message_id=m.id
             )
         await reply.delete()
-        for image in filePaths:
-            if os.path.exists(image):
-                os.remove(image)
     except (errors.ExternalUrlInvalid, errors.WebpageCurlFailed,errors.WebpageMediaEmpty) as e:
         print(e)
         return await reply.edit("Ran into an error.")

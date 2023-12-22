@@ -59,14 +59,10 @@ def getImageContent(url):
         client = httpx.Client()
         response = client.get(cleanUrl(url))
         if response.status_code != 200:
-            return None,None
+            return None
         imageType = response.headers['content-type'].split("/")[1]
-        if imageType == "svg+xml":
-            return None,None
-        if imageType == "octet-stream":
-            imageType = "webp"
         if imageType == "gif":
-            return None,None
-        return response.content,imageType
+            return None
+        return response.content
     except (TimeoutError, httpx.ReadTimeout,httpx.ReadError):
-        return None,None
+        return None
