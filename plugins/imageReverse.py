@@ -17,7 +17,7 @@ async def reverseImageSearch(_: Client,m: t.Message):
         imgUrl = await uploadToTelegraph(file)
         if imgUrl is None:
             return await reply.edit("Ran into an error.")
-        output = await ReverseImageSearch("google",imgUrl)
+        output = await ReverseImageSearch(imgUrl,"google")
         if output['code'] != 2:
             return await reply.edit("Ran into an error.")
         message = ''
