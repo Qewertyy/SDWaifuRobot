@@ -36,5 +36,4 @@ async def searchImages(_: Client,m:t.Message):
         return await reply.edit("Ran into an error.")
     except Exception as e:
         traceback.print_exc()
-        await reply.delete()
-        return await m.reply_text("Ran into an error.")
+        return await reply.edit("Ran into an error.")
