@@ -83,3 +83,9 @@ async def SearchImages(query,search_engine) -> dict:
     output = await client.SearchImages(query,0,search_engine)
     await client.close()
     return output
+
+async def DownloadMedia(platform,url) -> dict:
+    client = AsyncClient()
+    output = await client.MediaDownloaders(platform,url)
+    await client.close()
+    return output

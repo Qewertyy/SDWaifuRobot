@@ -4,3 +4,4 @@ class Config(object):
     BOT_TOKEN = 
     API_ID = 
     API_HASH = 
+    mediaPattern = r"\b(https?://(?:(.*?)\.)?(?:instagram\.com|instagr\.am|t\.co|twitter\.com)(?:[^\s]*))\b"

@@ -1,6 +1,14 @@
 # Copyright 2023 Qewertyy, MIT License
 import httpx
 from urllib.parse import urlsplit
+from .pastebins import nekobin
+
+async def evaluateContent(text):
+    if len(text) < 4096:
+        return text
+    link = await nekobin(text)
+    link += "\n\n#ERROR"
+    return link
 
 async def getFile(message):
     if not message.reply_to_message:
@@ -64,5 +72,16 @@ def getImageContent(url):
         if imageType == "gif":
             return None
         return response.content
+    except (TimeoutError, httpx.ReadTimeout,httpx.ReadError):
+        return None
+
+def getContentType(url):
+    """Get Media Content Type"""
+    try:
+        client = httpx.Client()
+        response = client.head(url)
+        if response.status_code != 200:
+            return None
+        return response.headers['content-type'].split("/")[0]
     except (TimeoutError, httpx.ReadTimeout,httpx.ReadError):
         return None
