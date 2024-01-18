@@ -1,10 +1,16 @@
 # [SDWaifuRobot](https://t.me/SDWaifuRobot)
 
-fill `config.py` with proper values
 
 ## Deploy on VPS
-    git clone https://github.com/Qewertyy/SDWaifuRobot && cd SDWaifuRobot
-    python3 -r requirements.txt
-    python3 bot.py
+fill `.env` with proper values
+```bash
+git clone https://github.com/Qewertyy/SDWaifuRobot && cdSDWaifuRobot
+python3 -m venv venv
+source venv/bin/activate # Linux
+.\venv\Scripts\activate # Windows
+python3 -r requirements.txt
+python3 bot.py
+```
 
-For any errors you're welcome to open an [issue](https://github.com/Qewertyy/SDWaifuRobot/issues/new)
+## Deploy to Heroku
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/Qewertyy/SDWaifuRobot)

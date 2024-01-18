@@ -14,6 +14,7 @@ Commands:
 `/llama`: llama by meta ai
 `/palm`: palm by google
 `/reverse`: reverse image search
+`/gemini`: gemini by google
 """
 
 @Client.on_message(filters.command(["start","help","repo","source"]))
