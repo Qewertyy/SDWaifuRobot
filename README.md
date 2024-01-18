@@ -8,7 +8,7 @@ git clone https://github.com/Qewertyy/SDWaifuRobot && cdSDWaifuRobot
 python3 -m venv venv
 source venv/bin/activate # Linux
 .\venv\Scripts\activate # Windows
-python3 -r requirements.txt
+pip3 install -r requirements.txt
 python3 bot.py
 ```
 
