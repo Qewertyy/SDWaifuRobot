@@ -4,7 +4,7 @@
 ## Deploy on VPS
 fill `.env` with proper values
 ```bash
-git clone https://github.com/Qewertyy/SDWaifuRobot && cdSDWaifuRobot
+git clone https://github.com/Qewertyy/SDWaifuRobot && cd SDWaifuRobot
 python3 -m venv venv
 source venv/bin/activate # Linux
 .\venv\Scripts\activate # Windows
