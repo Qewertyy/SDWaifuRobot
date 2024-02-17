@@ -2,8 +2,9 @@
 
 from pyrogram import Client, filters, types as t
 from Utils import getText,ChatCompletion,getMedia,geminiVision
+from lexica.constants import languageModels
 
-@Client.on_message(filters.command(["gpt","bard","llama","mistral","palm","gemini"]))
+@Client.on_message(filters.command([i for i in dir(languageModels) if not i.startswith("__")]))
 async def chatbots(_: Client,m: t.Message):
     prompt = getText(m)
     media = getMedia(m)
