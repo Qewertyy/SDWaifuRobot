@@ -20,7 +20,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
 StartTime = datetime.datetime.now()
-Models = ApiClient().models
+Models = ApiClient().models['models']['image']
 LOGGER.info(f"Models Loaded: v{version}")
 
 TelegraphClient = GraphClient(
