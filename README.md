@@ -14,3 +14,6 @@ python3 bot.py
 
 ## Deploy to Heroku
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/Qewertyy/SDWaifuRobot)
+
+## Deploy to Vercel
+[![Deploy](https://vercel.com/button)](https://github.com/Qewertyy/SDWaifuRobot/tree/aiogram?tab=readme-ov-file#deploy-to-vercel-serverless-function)
