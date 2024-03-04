@@ -1,4 +1,5 @@
-# Copyright 2023 Qewertyy, MIT License
+# Copyright 2024 Qewertyy, MIT License
+
 from httpx import Client,AsyncClient
 import os,traceback,json
 from .htmlParser import htmlToNodes

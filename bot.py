@@ -1,4 +1,4 @@
-# Copyright 2023 Qewertyy, MIT License
+# Copyright 2024 Qewertyy, MIT License
 
 import uvloop
 uvloop.install()
@@ -7,7 +7,7 @@ from pyrogram import Client
 from lexica import Client as ApiClient
 from lexica.constants import version
 from config import Config
-from Utils.telegraph import GraphClient
+from utils.telegraph import GraphClient
 
 # Get logging configurations
 logging.basicConfig(

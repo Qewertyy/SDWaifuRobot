@@ -1,4 +1,5 @@
-# Copyright 2023 Qewertyy, MIT License
+# Copyright 2024 Qewertyy, MIT License
+
 import httpx
 
 NEKOBIN = "https://nekobin.com/api/documents"

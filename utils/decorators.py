@@ -1,7 +1,9 @@
+# Copyright 2024 Qewertyy, MIT License
+
 from functools import wraps
 import traceback,sys,re
 from config import Config
-from .miscs import evaluateContent
+from .misc import evaluateContent
 from urllib.parse import urlsplit
 
 def errorHandler(func):
@@ -30,10 +32,8 @@ def errorHandler(func):
 
 def identifyPlatform(func):
     @wraps(func)
-    async def wrapper(client, message, *args, **kwargs):
+    async def wrapper(message, *args, **kwargs):
         url = re.findall(Config.mediaPattern,message.text)[0][0]
         platform = urlsplit(url).netloc.split('.')[-2]
-        message.platform = "pinterest" if platform  == "pin" else platform
-        message.url = url
-        await func(client, message, *args, **kwargs)
+        await func(url,"pinterest" if platform  == "pin" else platform,message, *args, **kwargs)
     return wrapper

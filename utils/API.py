@@ -1,4 +1,6 @@
-# Copyright 2023 Qewertyy, MIT License
+# Copyright 2024 Qewertyy, MIT License
+
+from typing import Optional
 import asyncio,base64,mimetypes,os
 from lexica import AsyncClient
 from lexica.constants import languageModels
@@ -32,28 +34,29 @@ async def ImageGeneration(model,prompt):
     finally:
         await client.close()
 
-async def UpscaleImages(image: bytes) -> str:
+async def UpscaleImages(image:bytes=None,image_url:str=None,format="url") -> dict:
     """
     Upscales an image and return with upscaled image path.
     """
+    if not image and not image_url:
+        raise Exception("Image or image_url is required")
     client = AsyncClient()
-    content = await client.upscale(image)
+    content = await client.upscale(image,image_url,format)
     await client.close()
-    upscaled_file_path = "upscaled.png"
-    with open(upscaled_file_path, "wb") as output_file:
-        output_file.write(content)
-    return upscaled_file_path
+    return content['url']
 
-async def ChatCompletion(prompt,model) -> tuple | str :
+async def ChatCompletion(prompt,model)  :
     modelInfo = getattr(languageModels,model)
     client = AsyncClient()
     output = await client.ChatCompletion(prompt,modelInfo)
     await client.close()
+    if output['code'] == 0:
+        return "I can't answer that."
     if model == "bard":
         return output['content'], output['images']
     return output['content']
 
-async def geminiVision(prompt,model,images) -> tuple | str :
+async def geminiVision(prompt,model,images):
     imageInfo = []
     for image in images:
         with open(image,"rb") as imageFile:

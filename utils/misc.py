@@ -1,7 +1,9 @@
-# Copyright 2023 Qewertyy, MIT License
+# Copyright 2024 Qewertyy, MIT License
+
 import httpx
 from urllib.parse import urlsplit
 from .pastebins import nekobin
+from config import Config
 
 async def evaluateContent(text):
     if len(text) < 4096:
@@ -10,7 +12,7 @@ async def evaluateContent(text):
     link += "\n\n#ERROR"
     return link
 
-async def getFile(message):
+async def getFile(bot,message):
     if not message.reply_to_message:
         return None
     if message.reply_to_message.document is False or message.reply_to_message.photo is False:
@@ -18,8 +20,10 @@ async def getFile(message):
     if message.reply_to_message.document and message.reply_to_message.document.mime_type in ['image/png','image/jpg','image/jpeg'] or message.reply_to_message.photo:
         if message.reply_to_message.document and message.reply_to_message.document.file_size > 5242880:
             return 1
-        image = await message.reply_to_message.download()
-        return image
+        fileId= message.reply_to_message.photo[-1].file_id if message.reply_to_message.photo else message.reply_to_message.document.file_id
+        image = await bot.get_file(fileId)
+        imageUrl = Config.TELEGRAM_FILE_URL + Config.BOT_TOKEN + "/" + image.file_path
+        return imageUrl
     else:
         return None
 
@@ -85,3 +89,39 @@ def getContentType(url):
         return response.headers['content-type'].split("/")[0]
     except (TimeoutError, httpx.ReadTimeout,httpx.ReadError):
         return None
+
+async def uploadTo0x0st(imageUrl):
+    """Upload Image to 0x0st"""
+    try:
+        client = httpx.Client()
+        response = client.post("https://0x0.st",files={"url": imageUrl})
+        if response.status_code != 200:
+            return None
+        output= response.text
+        return output
+    except (TimeoutError, httpx.ReadTimeout,httpx.ReadError):
+        return None
+
+def get_readable_time(seconds: int) -> str:
+    count = 0
+    ping_time = ""
+    time_list = []
+    time_suffix_list = ["s", "m", "h", "days"]
+
+    while count < 4:
+        count += 1
+        remainder, result = divmod(seconds, 60) if count < 3 else divmod(seconds, 24)
+        if seconds == 0 and remainder == 0:
+            break
+        time_list.append(int(result))
+        seconds = int(remainder)
+
+    for x in range(len(time_list)):
+        time_list[x] = str(time_list[x]) + time_suffix_list[x]
+    if len(time_list) == 4:
+        ping_time += time_list.pop() + ", "
+
+    time_list.reverse()
+    ping_time += ":".join(time_list)
+
+    return ping_time

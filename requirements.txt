@@ -1,6 +1,5 @@
-Pyrogram
-TgCrypto
-uvloop
-lexica-api
-httpx[http2]
+aiogram==2.25.2
+uvicorn
+fastapi
+git+https://github.com/Qewertyy/LexicaAPI/
 python-dotenv

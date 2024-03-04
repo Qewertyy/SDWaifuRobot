@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+ 
+[packages]
+aiogram==2.25.2
+uvicorn
+fastapi
+lexica-api
+python-dotenv
+
+[requires]
+python_version = "3.9"
