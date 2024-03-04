@@ -2,4 +2,4 @@ from api import app
 
 @app.get("/")
 async def root_endpoint():
-    return {"message": "Bot is running!"}
+    return {"message": "Serverless function is alive and bot is running!"}

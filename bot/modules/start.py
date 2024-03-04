@@ -20,6 +20,8 @@ Commands:
 `/gemini`: gemini by google
 
 Uptime: `{}`
+
+*this [instance](https://sdwaifurobot.vercel.app/) is working on serverless functions*
 """
 
 btns = [
@@ -28,6 +30,9 @@ btns = [
     },
     {
         "text":"Deploy to Heroku","url":"https://dashboard.heroku.com/new?template=https://github.com/Qewertyy/SDWaifuRobot"
+    },
+    {
+        "text":"Deploy to Vercel","url":"https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FQewertyy%2FSDWaifuRobot%2Ftree%2Faiogram&env=BOT_TOKEN,PORT,WEBHOOK_HOST,BOT_TOKEN"
     }
 ]
 
