@@ -21,7 +21,7 @@ Commands:
 
 Uptime: `{}`
 
-*this [instance](https://sdwaifurobot.vercel.app/) is working on serverless functions*
+this [instance](https://sdwaifurobot.vercel.app/) is working on serverless functions
 """
 
 btns = [
