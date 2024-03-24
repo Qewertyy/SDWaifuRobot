@@ -15,7 +15,7 @@ python3 bot.py
 ## Deploy to Heroku
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https://github.com/Qewertyy/SDWaifuRobot)
 
-## Deploy to Vercel (Serverless Function)
+## Deploy to Vercel Serverless Functions (Unstable)
 [![Deploy](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FQewertyy%2FSDWaifuRobot%2Ftree%2Faiogram&env=BOT_TOKEN,PORT,WEBHOOK_HOST,BOT_TOKEN)
 
 > **Note**: After deployment, Goto the `/updateWebhooks?token=\<your bot token\>`  path of your deployed app url to setup webhooks.
