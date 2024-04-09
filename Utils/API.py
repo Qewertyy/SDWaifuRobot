@@ -50,7 +50,7 @@ async def ChatCompletion(prompt,model) -> tuple | str :
     output = await client.ChatCompletion(prompt,modelInfo)
     await client.close()
     if model == "bard":
-        return output['content'], output['images']
+        return output['content'], output['images'] if 'images' in output else []
     return output['content']
 
 async def geminiVision(prompt,model,images) -> tuple | str :
