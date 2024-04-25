@@ -14,7 +14,8 @@ async def media_downloader(_,m: t.Message):
     if output is None or output['code'] != 2 :
         return await m.reply_text("Unable to download media.")
     buildMedia = []
-    for media in output['content']:
+    medias = output['content']['mediaUrls'] if 'mediaUrls' in output['content'] else output['content']
+    for media in medias:
         if 'type' in media:
             if media['type'] in ["image","photo"]:
                 buildMedia.append(t.InputMediaPhoto(media['url']))
