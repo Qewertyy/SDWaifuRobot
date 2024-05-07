@@ -63,7 +63,7 @@ async def uploadToTelegraph(file: str):
         if res.status_code != 200:
             return None
         resp = res.json()
-        return 'https://graph.org'+resp[0]['src']
+        return resp[0]['src'] #'https://graph.org'
     except Exception as E:
         print("Uploading to telegraph failed:")
         traceback.print_exc()
