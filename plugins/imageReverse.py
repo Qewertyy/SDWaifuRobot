@@ -1,7 +1,7 @@
 # Copyright 2023 Qewertyy, MIT License
 import traceback
 from pyrogram import Client, filters, types as t
-from Utils import ReverseImageSearch, getFile, uploadToTelegraph, createMessage
+from Utils import ReverseImageSearch, getFile, createMessage, upload
 
 
 @Client.on_message(filters.command(["pp", "reverse", "sauce"]))
@@ -14,7 +14,7 @@ async def reverseImageSearch(_: Client, m: t.Message):
         if file == 1:
             return await reply.edit("File size is large")
         await reply.edit("`Uploading to the server...`")
-        imagePath = await uploadToTelegraph(file)
+        imagePath = await upload(file)
         if imagePath is None:
             return await reply.edit("Ran into an error.")
         await reply.edit_text(

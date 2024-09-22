@@ -1,7 +1,8 @@
 # Copyright 2023 Qewertyy, MIT License
-import asyncio,base64,mimetypes,os
+import asyncio,base64,mimetypes,os,traceback
 from lexica import AsyncClient
 from lexica.constants import languageModels
+from httpx import AsyncClient as HttpxClient
 
 async def ImageGeneration(model,prompt):
     try:
@@ -49,6 +50,8 @@ async def ChatCompletion(prompt,model) -> tuple | str :
     client = AsyncClient()
     output = await client.ChatCompletion(prompt,modelInfo)
     await client.close()
+    if output['code'] == 0:
+        return "I can't answer that."
     if model == "bard":
         return output['content'], output['images'] if 'images' in output else []
     return output['content']
@@ -89,3 +92,23 @@ async def DownloadMedia(platform,url) -> dict:
     output = await client.MediaDownloaders(platform,url)
     await client.close()
     return output
+
+async def upload(image) -> dict:
+    try:
+        files = {"file":open(image,'rb')}
+        async with HttpxClient(http2=True) as client:
+            res = await client.post(
+                "https://blob.qewertyy.dev/upload",
+                files=files
+                )
+        if res.status_code != 200:
+            return None
+        resp = res.json()
+        print(resp)
+        return resp['url']
+    except Exception:
+        print("Upload to blob.qewertyy.dev failed:")
+        traceback.print_exc()
+        return None
+    finally:
+        os.remove(image)
