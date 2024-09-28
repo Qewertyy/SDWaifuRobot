@@ -28,7 +28,8 @@ TelegraphClient = GraphClient(
     "LexicaAPI",
     "https://t.me/LexicaAPI",
     "LexicaAPI"
-).createAccount()
+)
+TelegraphClient.createAccount()
 
 class Bot(Client):
     def __init__(self):
