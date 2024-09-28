@@ -14,9 +14,11 @@ async def reverseImageSearch(_: Client, m: t.Message):
         if file == 1:
             return await reply.edit("File size is large")
         await reply.edit("`Uploading to the server...`")
-        imagePath = await upload(file)
-        if imagePath is None:
+        imageURL = await upload(file)
+        if imageURL is None:
             return await reply.edit("Ran into an error.")
+        collId = f"ris-{m.from_user.id}"
+        _.db[collId] = imageURL
         await reply.edit_text(
             text="Select a search engine",
             reply_markup=t.InlineKeyboardMarkup(
@@ -24,19 +26,19 @@ async def reverseImageSearch(_: Client, m: t.Message):
                     [
                         t.InlineKeyboardButton(
                             text="Google",
-                            callback_data=f"ris.g.{imagePath}.{m.from_user.id}",
+                            callback_data=f"ris.g.{collId}.{m.from_user.id}",
                         )
                     ],
                     [
                         t.InlineKeyboardButton(
                             text="Bing",
-                            callback_data=f"ris.b.{imagePath}.{m.from_user.id}",
+                            callback_data=f"ris.b.{collId}.{m.from_user.id}",
                         )
                     ],
                     [
                         t.InlineKeyboardButton(
                             text="Yandex",
-                            callback_data=f"ris.y.{imagePath}.{m.from_user.id}",
+                            callback_data=f"ris.y.{collId}.{m.from_user.id}",
                         )
                     ],
                 ]
@@ -52,11 +54,18 @@ async def reverseImageSearch(_: Client, m: t.Message):
 async def ReverseResults(_: Client, query: t.CallbackQuery):
     data = query.data.split(".")
     userId = int(data[-1])
-    imageUrl = "https://graph.org" + data[-3] + "." + data[-2]
+    collId = data[2]
+    imageUrl = _.db.get(collId,None)
+    if imageUrl is None:
+        return await query.edit_message_text("Ran into an error.")
     platform = "bing" if data[1] == "b" else "google" if data[1] == "g" else "yandex"
     if query.from_user.id != userId:
         return await query.answer("Not for you!", show_alert=True)
     output = await ReverseImageSearch(imageUrl, platform)
+    try:
+        del _.db[collId]
+    except KeyError:
+        pass
     if output["code"] != 2:
         return await query.edit_message_text("Ran into an error.")
     messages = createMessage(platform, output["content"])

@@ -1,7 +1,6 @@
 # Copyright 2023 Qewertyy, MIT License
 
 import uvloop
-uvloop.install()
 import datetime,logging, sys
 from pyrogram import Client
 from lexica import Client as ApiClient
@@ -23,16 +22,15 @@ StartTime = datetime.datetime.now()
 Models = ApiClient().models['models']['image']
 LOGGER.info(f"Models Loaded: v{version}")
 
+db = {}
+
 TelegraphClient = GraphClient(
     "LexicaAPI",
     "https://t.me/LexicaAPI",
     "LexicaAPI"
-)
-TelegraphClient.createAccount()
+).createAccount()
 
 class Bot(Client):
-    global StartTime,Models
-    #print(Models)
     def __init__(self):
         super().__init__(
             "SDWaifuRobot",
@@ -41,17 +39,22 @@ class Bot(Client):
             bot_token=Config.BOT_TOKEN,
             plugins=dict(root="plugins"),
         )
+        self.models = Models
+        self.db = db
+        if not self.models:
+            LOGGER.error("Models are empty!")
+            sys.exit(1)
+
     async def start(self):
         await super().start()
         LOGGER.info("Bot Started")
 
-    if Models is None:
-        LOGGER.error("Models are empty!")
-        sys.exit(1)
 
     async def stop(self):
+        self.db.clear()
         await super().stop()
         LOGGER.info("Stopped Services")
 
 if __name__ == "__main__":
+    uvloop.install()
     Bot().run()

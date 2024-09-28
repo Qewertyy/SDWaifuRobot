@@ -2,10 +2,13 @@
 from httpx import Client,AsyncClient
 import os,traceback,json
 from .htmlParser import htmlToNodes
+from .constants import URLS
+
+TELEGRAPH = URLS.get("TELEGRAPH")
 
 class GraphClient:
     def __init__(self,author_name,author_url,short_name,access_token=None):
-        self.baseUrl = "https://api.graph.org/"
+        self.baseUrl = TELEGRAPH
         self.client = Client(http2=True)
         self.access_token = access_token
         self.author_name = author_name
@@ -17,7 +20,7 @@ class GraphClient:
         }
     
     def createAccount(self,):
-        url = self.baseUrl+"createAccount"
+        url = self.baseUrl+"/createAccount"
         data = {
             "author_name":self.author_name,
             "author_url":self.author_url,
@@ -33,7 +36,7 @@ class GraphClient:
         raise Exception(resp['error'])
     
     def createPage(self,title,content):
-        url = self.baseUrl+"createPage"
+        url = self.baseUrl+"/createPage"
         content_json = json.dumps(htmlToNodes(content),separators=(',', ':'), ensure_ascii=False)
         data = {
             'access_token': self.access_token,
@@ -50,23 +53,3 @@ class GraphClient:
         if resp.get('ok'):
             return resp['result']['url']
         raise Exception(resp['error'])
-
-
-async def uploadToTelegraph(file: str):
-    try:
-        files = {"file":open(file,'rb')}
-        async with AsyncClient(http2=True) as client:
-            res = await client.post(
-                "https://graph.org/upload",
-                files=files
-                )
-        if res.status_code != 200:
-            return None
-        resp = res.json()
-        return resp[0]['src'] #'https://graph.org'
-    except Exception as E:
-        print("Uploading to telegraph failed:")
-        traceback.print_exc()
-        return None
-    finally:
-        os.remove(file)

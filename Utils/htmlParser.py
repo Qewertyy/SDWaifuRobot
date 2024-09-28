@@ -2,29 +2,7 @@
 
 from html.parser import HTMLParser
 from html.entities import name2codepoint
-import re
-
-RE_WHITESPACE = re.compile(r'(\s+)', re.UNICODE)
-
-
-ALLOWED_TAGS = {
-    'a', 'aside', 'b', 'blockquote', 'br', 'code', 'em', 'figcaption', 'figure',
-    'h3', 'h4', 'hr', 'i', 'iframe', 'img', 'li', 'ol', 'p', 'pre', 's',
-    'strong', 'u', 'ul', 'video'
-}
-
-VOID_ELEMENTS = {
-    'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen',
-    'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr'
-}
-
-BLOCK_ELEMENTS = {
-    'address', 'article', 'aside', 'blockquote', 'canvas', 'dd', 'div', 'dl',
-    'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2',
-    'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr', 'li', 'main', 'nav',
-    'noscript', 'ol', 'output', 'p', 'pre', 'section', 'table', 'tfoot', 'ul',
-    'video'
-}
+from .constants import ALLOWED_TAGS, VOID_ELEMENTS, BLOCK_ELEMENTS
 
 
 class HtmlToNodesParser(HTMLParser):

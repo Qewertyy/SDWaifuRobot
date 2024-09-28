@@ -1,7 +1,8 @@
 # Copyright 2023 Qewertyy, MIT License
 import httpx
+from .constants import URLS
 
-NEKOBIN = "https://nekobin.com/api/documents"
+NEKOBIN = URLS.get("NEKOBIN")
 async def nekobin(data,extension=None):
     """
     To Paste the given message/text/code to nekobin

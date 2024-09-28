@@ -3,7 +3,9 @@ import httpx
 from urllib.parse import urlsplit
 from .pastebins import nekobin
 from bot import TelegraphClient
+from .constants import URLS
 
+LEXICA_URL = URLS.get("LEXICA")
 
 async def evaluateContent(text):
     if len(text) < 4096:
@@ -135,7 +137,7 @@ def createMessage(platform, data):
             htmlMessage += "<br/><br/><h3>URLS</h3><br/>"
             htmlMessage += f"<br/>".join([f"{url}" for url in urls])
             htmlMessage += (
-                "<br/><br/>By <a href='https://lexica.qewertyy.dev'>LexicaAPI</a>"
+                f"<br/><br/>By <a href={LEXICA_URL}>LexicaAPI</a>"
             )
             url = TelegraphClient.createPage("More Results", htmlMessage)
             message += f"\n\n<a href='{url}'>More Results</a>\nBy @LexicaAPI"
@@ -157,7 +159,7 @@ def createMessage(platform, data):
             ]
         )
         htmlMessage += (
-            "<br/><br/>By <a href='https://lexica.qewertyy.dev'>LexicaAPI</a>"
+            f"<br/><br/>By <a href={LEXICA_URL}>LexicaAPI</a>"
         )
         url = TelegraphClient.createPage("More Results", htmlMessage)
         message += f"\n\n<a href='{url}'>More Results</a>\nBy @LexicaAPI"
@@ -176,7 +178,7 @@ def createMessage(platform, data):
                 ]
             )
             htmlMessage += (
-                "<br/><br/>By <a href='https://lexica.qewertyy.dev'>LexicaAPI</a>"
+                f"<br/><br/>By <a href={LEXICA_URL}>LexicaAPI</a>"
             )
             url = TelegraphClient.createPage("More Results", htmlMessage)
             message += f"\n\n<a href='{url}'>More Results</a>\nBy @LexicaAPI"

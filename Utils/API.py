@@ -3,6 +3,9 @@ import asyncio,base64,mimetypes,os,traceback
 from lexica import AsyncClient
 from lexica.constants import languageModels
 from httpx import AsyncClient as HttpxClient
+from .constants import URLS
+
+BLOB_URL = URLS.get('BLOB')
 
 async def ImageGeneration(model,prompt):
     try:
@@ -98,16 +101,16 @@ async def upload(image) -> dict:
         files = {"file":open(image,'rb')}
         async with HttpxClient(http2=True) as client:
             res = await client.post(
-                "https://blob.qewertyy.dev/upload",
+                BLOB_URL+"/upload",
                 files=files
                 )
         if res.status_code != 200:
             return None
         resp = res.json()
-        print(resp)
+        #print(resp)
         return resp['url']
     except Exception:
-        print("Upload to blob.qewertyy.dev failed:")
+        print(f"Upload to {BLOB_URL} failed:")
         traceback.print_exc()
         return None
     finally:

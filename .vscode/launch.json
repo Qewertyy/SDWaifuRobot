@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "SDWaifuRobot Debugger",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "bot.py"
+        }
+    ]
+}

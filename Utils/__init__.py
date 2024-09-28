@@ -7,3 +7,4 @@ from .pastebins import *
 from .telegraph import *
 from .htmlParser import *
 from .decorators import *
+from .constants import *
