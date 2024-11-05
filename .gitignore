@@ -160,3 +160,4 @@ cython_debug/
 SDWaifuRobot.session-journal
 SDWaifuRobot.session
 logs.txt
+database/sql.db

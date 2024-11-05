@@ -4,8 +4,10 @@ from urllib.parse import urlsplit
 from .pastebins import nekobin
 from bot import TelegraphClient
 from .constants import URLS
+from pyrogram import filters
 
 LEXICA_URL = URLS.get("LEXICA")
+
 
 async def evaluateContent(text):
     if len(text) < 4096:
@@ -15,7 +17,7 @@ async def evaluateContent(text):
     return link
 
 
-async def getFile(message):
+async def getFile(message,fileSize=5242880):
     if not message.reply_to_message:
         return None
     if (
@@ -31,7 +33,7 @@ async def getFile(message):
     ):
         if (
             message.reply_to_message.document
-            and message.reply_to_message.document.file_size > 5242880
+            and message.reply_to_message.document.file_size > fileSize
         ):
             return 1
         image = await message.reply_to_message.download()
@@ -190,3 +192,20 @@ def createMessage(platform, data):
                 ]
             )
     return {"message": message, "htmlMessage": htmlMessage}
+
+
+def filter_replies_to_bot(bot_id: int):
+    """Filter to check if the message is a reply to a bot message"""
+    async def filter_bot_replies(flt, _, message) -> bool:
+        reply_message = message.reply_to_message
+        if not reply_message:
+            return False
+        
+        is_bot_reply = reply_message.from_user and reply_message.from_user.is_bot
+        has_valid_content = not (reply_message.document or reply_message.photo or message.sticker or message.photo or message.document)
+        is_text_message = message.text and not message.text.startswith("/")
+        is_from_target_bot = bot_id == flt.bot_id
+        
+        return is_bot_reply and has_valid_content and is_text_message and is_from_target_bot
+
+    return filters.create(filter_bot_replies, bot_id=bot_id)
