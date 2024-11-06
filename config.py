@@ -10,5 +10,5 @@ class Config(object):
     BOT_TOKEN = os.getenv("BOT_TOKEN")
     API_ID = os.getenv("API_ID")
     API_HASH = os.getenv("API_HASH")
-    mediaPattern = r"\b(https?://(?:(.*?)\.)?(?:instagram\.com|www\.instagram\.com|t\.co|twitter\.com|x\.com|pin\.it|pinterest\.com|in\.pinterest\.com)(?:[^\s]*))\b"
+    mediaPattern = r"\b(https?://(?:(.*?)\.)?(?:instagram\.com|www\.instagram\.com|www\.reddit\.com|reddit\.com|redd\.it|t\.co|twitter\.com|x\.com|pin\.it|pinterest\.com|in\.pinterest\.com)(?:[^\s]*))\b"
     BOT_ID = int(os.getenv("BOT_TOKEN").split(":")[0])
